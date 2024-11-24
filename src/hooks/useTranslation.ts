@@ -10,10 +10,6 @@ interface TranslationsType {
   [key: string]: TranslationValue | TranslationsType;
 }
 
-type Translations = {
-  [key in Language]: TranslationsType;
-};
-
 export function useTranslation() {
   const { config } = useConfig();
   const [language, setLanguage] = useState<Language>((config?.language as Language) || "en");
@@ -29,7 +25,7 @@ export function useTranslation() {
       },
     ): string => {
       const keys = key.split(".");
-      let result: any = translations[language];
+      let result: TranslationValue | TranslationsType = translations[language];
 
       for (const k of keys) {
         if (result && typeof result === "object" && k in result) {
