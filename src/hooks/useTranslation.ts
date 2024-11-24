@@ -4,10 +4,20 @@ import { translations, Language } from "../i18n";
 import { useConfig } from "./useConfig";
 import { Preferences } from "../types";
 
-type TranslationValue = string | ((searchText?: string, count?: number) => string);
+type TranslationFunction = (searchText?: string, count?: number) => string;
+type TranslationValue = string | TranslationFunction;
+type TranslationsObject = { [key: string]: TranslationValue | TranslationsObject };
 
-interface TranslationsType {
-  [key: string]: TranslationValue | TranslationsType;
+function isTranslationFunction(value: unknown): value is TranslationFunction {
+  return typeof value === "function";
+}
+
+function isString(value: unknown): value is string {
+  return typeof value === "string";
+}
+
+function isTranslationsObject(value: unknown): value is TranslationsObject {
+  return typeof value === "object" && value !== null;
 }
 
 export function useTranslation() {
@@ -25,25 +35,31 @@ export function useTranslation() {
       },
     ): string => {
       const keys = key.split(".");
-      let result: TranslationValue | TranslationsType = translations[language];
+      let current: unknown = translations[language];
 
       for (const k of keys) {
-        if (result && typeof result === "object" && k in result) {
-          result = result[k];
+        if (isTranslationsObject(current) && k in current) {
+          current = current[k];
         } else {
           return key;
         }
       }
 
-      if (typeof result === "function") {
-        return result(params?.searchText, params?.count);
+      if (isTranslationFunction(current)) {
+        return current(params?.searchText, params?.count);
       }
 
-      if (typeof result === "string" && params) {
-        return Object.entries(params).reduce((str, [key, value]) => str.replace(`{{${key}}}`, String(value)), result);
+      if (isString(current)) {
+        if (params) {
+          return Object.entries(params).reduce(
+            (str, [paramKey, value]) => str.replace(`{{${paramKey}}}`, String(value)),
+            current,
+          );
+        }
+        return current;
       }
 
-      return result as string;
+      return key;
     },
     [language],
   );
