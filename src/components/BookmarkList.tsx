@@ -110,7 +110,7 @@ export function BookmarkList({
             key={bookmark.id}
             bookmark={bookmark}
             config={config}
-            onRefresh={onRefresh}
+            onRefresh={onRefresh || (() => {})}
             onCleanCache={handleCleanCache}
           />
         ))}

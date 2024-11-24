@@ -44,8 +44,8 @@ export function useBookmarkFilter(bookmarks: Bookmark[] | undefined, searchText:
         const searchLower = searchText.toLowerCase();
         let weight = 0;
 
-        if (bookmark.title) {
-          const titleLower = bookmark.title.toLowerCase();
+        if (bookmark.content?.title) {
+          const titleLower = bookmark.content.title.toLowerCase();
           if (titleLower === searchLower) weight += 5;
           else if (titleLower.includes(searchLower)) weight += 4;
         }

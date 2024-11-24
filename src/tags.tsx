@@ -6,16 +6,8 @@ import { useConfig } from "./hooks/useConfig";
 import { useGetAllTags } from "./hooks/useGetAllTags";
 import { useGetTagsBookmarks } from "./hooks/useGetTagsBookmarks";
 import { useTranslation } from "./hooks/useTranslation";
+
 const { Metadata } = List.Item.Detail;
-interface Tag {
-  id: string;
-  name: string;
-  numBookmarks: number;
-  numBookmarksByAttachedType: {
-    ai: number;
-    human: number;
-  };
-}
 
 export default function Tags() {
   const { push } = useNavigation();
@@ -62,11 +54,11 @@ export default function Tags() {
     }
   };
 
-  const sortedTags = tags.sort((a: Tag, b: Tag) => b.numBookmarks - a.numBookmarks);
+  const sortedTags = tags.sort((a, b) => b.numBookmarks - a.numBookmarks);
 
   return (
     <List isLoading={isLoading} searchBarPlaceholder={t("tags.searchPlaceholder")}>
-      {sortedTags?.map((tag: Tag) => (
+      {sortedTags?.map((tag) => (
         <List.Item
           key={tag.id}
           icon={Icon.Hashtag}

@@ -8,18 +8,18 @@ import { useGetAllLists } from "./hooks/useGetAllLists";
 import { useGetListsBookmarks } from "./hooks/useGetListsBookmarks";
 import { useTranslation } from "./hooks/useTranslation";
 
-interface List {
+interface ListWithCount {
   id: string;
   name: string;
   icon: string;
   parentId: string | null;
   count: number;
-  children?: List[];
+  children?: ListWithCount[];
 }
 
-function buildHierarchy(lists: List[]): List[] {
-  const listMap = new Map(lists.map((list) => [list.id, { ...list, children: [] }]));
-  const rootLists: List[] = [];
+function buildHierarchy(lists: ListWithCount[]): ListWithCount[] {
+  const listMap = new Map(lists.map((list) => [list.id, { ...list, children: [] as ListWithCount[] }]));
+  const rootLists: ListWithCount[] = [];
 
   lists.forEach((list) => {
     if (list.parentId === null) {
@@ -121,7 +121,7 @@ export default function Lists() {
   }, [push]);
 
   const ListItemComponent = useCallback(
-    ({ list, level }: { list: List; level: number }) => {
+    ({ list, level }: { list: ListWithCount; level: number }) => {
       return (
         <List.Item
           key={list.id}
@@ -151,10 +151,10 @@ export default function Lists() {
     [t, push, handleDeleteList],
   );
 
-  const hierarchicalLists = useMemo(() => (lists ? buildHierarchy(lists) : []), [lists]);
+  const hierarchicalLists = useMemo(() => (lists ? buildHierarchy(lists as ListWithCount[]) : []), [lists]);
 
   const renderListItems = useCallback(
-    (items: List[], level = 0) => {
+    (items: ListWithCount[], level = 0) => {
       return items.flatMap((list) => {
         const result = [<ListItemComponent key={list.id} list={list} level={level} />];
         if (list.children?.length) {

@@ -12,33 +12,59 @@ export interface Config {
   language: string;
 }
 
-interface BookmarkContent {
-  type: "text" | "asset" | "link";
-  text?: string;
-  sourceUrl?: string | null;
+export interface Asset {
+  id: string;
+  assetType: "screenshot" | "image";
+}
 
+export interface Tag {
+  id: string;
+  name: string;
+  numBookmarks: number;
+  numBookmarksByAttachedType: {
+    ai: number;
+    human: number;
+  };
+  attachedBy?: "ai" | "human";
+}
+
+export interface BookmarkContent {
+  type: "link" | "text" | "asset";
+  url?: string;
+  title?: string;
+  text?: string;
   assetType?: "image";
   assetId?: string;
   fileName?: string;
-
-  url?: string;
-  title?: string;
-  description?: string;
-  imageUrl?: string;
-  screenshotAssetId?: string;
   favicon?: string;
-  htmlContent?: string;
+  description?: string;
 }
 
 export interface Bookmark {
   id: string;
-  createdAt: string;
-  title: string | null;
-  archived: boolean;
-  favourited: boolean;
-  taggingStatus: string;
-  tags: [];
   content: BookmarkContent;
-  assets: [];
+  summary?: string;
   note?: string;
+  favourited: boolean;
+  archived: boolean;
+  createdAt: string;
+  assets?: Asset[];
+  tags: Tag[];
+}
+
+export interface List {
+  id: string;
+  name: string;
+  // ... 其他 list 相关字段
+}
+
+export interface ListDetails {
+  bookmarks: Bookmark[];
+  // ... 其他 list 详情相关字段
+}
+
+export interface ApiResponse<T> {
+  lists?: T[];
+  tags?: T[];
+  bookmarks?: Bookmark[];
 }

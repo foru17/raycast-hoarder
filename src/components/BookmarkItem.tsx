@@ -12,7 +12,7 @@ interface BookmarkItemProps {
   bookmark: Bookmark;
   config: Config;
   onRefresh: () => void;
-  onCleanCache: () => void;
+  onCleanCache?: () => void;
 }
 
 function renderBookmarkContent(
@@ -47,7 +47,7 @@ function renderBookmarkContent(
             )}
           </Metadata>
         ),
-        actions: (onRefresh: () => void, onCleanCache: () => void) => (
+        actions: (onRefresh: () => void, onCleanCache?: () => void) => (
           <ActionPanel>
             <ActionPanel.Section>
               <Action.Push
@@ -101,7 +101,7 @@ function renderBookmarkContent(
             </Metadata>
           ),
           imageUrl: assetImageUrl,
-          actions: (onRefresh: () => void, onCleanCache: () => void) => (
+          actions: (onRefresh: () => void, onCleanCache?: () => void) => (
             <ActionPanel>
               <ActionPanel.Section>
                 <Action.Push
@@ -160,7 +160,7 @@ function renderBookmarkContent(
             )}
           </Metadata>
         ),
-        actions: (onRefresh: () => void, onCleanCache: () => void) => (
+        actions: (onRefresh: () => void, onCleanCache?: () => void) => (
           <ActionPanel>
             <ActionPanel.Section>
               <Action.Push
@@ -194,7 +194,7 @@ function renderBookmarkContent(
   }
 }
 
-export function BookmarkItem({ bookmark, config, onRefresh }: BookmarkItemProps) {
+export function BookmarkItem({ bookmark, config, onRefresh, onCleanCache }: BookmarkItemProps) {
   const { t } = useTranslation();
   const [screenshotUrl, setScreenshotUrl] = useState<string>(DEFAULT_SCREENSHOT_FILENAME);
   const [assetImageUrl, setAssetImageUrl] = useState<string>(DEFAULT_SCREENSHOT_FILENAME);
@@ -262,7 +262,7 @@ export function BookmarkItem({ bookmark, config, onRefresh }: BookmarkItemProps)
           metadata={content.metadata || null}
         />
       }
-      actions={content.actions ? content.actions(onRefresh) : null}
+      actions={content.actions ? content.actions(onRefresh, onCleanCache) : null}
     />
   );
 }

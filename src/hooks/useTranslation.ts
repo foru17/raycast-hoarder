@@ -4,6 +4,16 @@ import { translations, Language } from "../i18n";
 import { useConfig } from "./useConfig";
 import { Preferences } from "../types";
 
+type TranslationValue = string | ((searchText?: string, count?: number) => string);
+
+interface TranslationsType {
+  [key: string]: TranslationValue | TranslationsType;
+}
+
+type Translations = {
+  [key in Language]: TranslationsType;
+};
+
 export function useTranslation() {
   const { config } = useConfig();
   const [language, setLanguage] = useState<Language>((config?.language as Language) || "en");
@@ -19,11 +29,14 @@ export function useTranslation() {
       },
     ): string => {
       const keys = key.split(".");
-      let result = translations[language];
+      let result: any = translations[language];
 
       for (const k of keys) {
-        result = result?.[k];
-        if (result === undefined) return key;
+        if (result && typeof result === "object" && k in result) {
+          result = result[k];
+        } else {
+          return key;
+        }
       }
 
       if (typeof result === "function") {
