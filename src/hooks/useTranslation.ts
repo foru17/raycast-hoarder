@@ -1,8 +1,8 @@
-import { useState, useEffect, useCallback, useRef } from "react";
 import { getPreferenceValues } from "@raycast/api";
-import { translations, Language } from "../i18n";
-import { useConfig } from "./useConfig";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { Language, translations } from "../i18n";
 import { Preferences } from "../types";
+import { useConfig } from "./useConfig";
 
 type TranslationFunction = (searchText?: string, count?: number) => string;
 type TranslationValue = string | TranslationFunction;

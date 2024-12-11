@@ -108,8 +108,8 @@ function FavoritedBookmarks() {
 
 const dashboardListsPage = (listId: string) => {
   const { config } = useConfig();
-  const { host } = config;
-  return `${host}/dashboard/lists/${listId}`;
+  const { apiUrl } = config;
+  return `${apiUrl}/dashboard/lists/${listId}`;
 };
 
 export default function Lists() {
@@ -117,7 +117,7 @@ export default function Lists() {
   const { push } = useNavigation();
   const { config } = useConfig();
   const { t } = useTranslation();
-  const { host } = config;
+  const { apiUrl } = config;
 
   const handleDeleteList = useCallback(
     async (id: string) => {
@@ -214,7 +214,7 @@ export default function Lists() {
         actions={
           <ActionPanel>
             <Action title={t("list.openFavorites")} onAction={handleShowFavoritedBookmarks} icon={Icon.List} />
-            <Action.OpenInBrowser url={`${host}/dashboard/favourites`} title={t("common.viewInBrowser")} />
+            <Action.OpenInBrowser url={`${apiUrl}/dashboard/favourites`} title={t("common.viewInBrowser")} />
           </ActionPanel>
         }
       />
@@ -224,7 +224,7 @@ export default function Lists() {
         actions={
           <ActionPanel>
             <Action title={t("list.openArchived")} onAction={handleShowArchivedBookmarks} icon={Icon.List} />
-            <Action.OpenInBrowser url={`${host}/dashboard/archive`} title={t("common.viewInBrowser")} />
+            <Action.OpenInBrowser url={`${apiUrl}/dashboard/archive`} title={t("common.viewInBrowser")} />
           </ActionPanel>
         }
       />

@@ -106,6 +106,8 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduc
 
 This extension is built on top of the [Hoarder](https://github.com/hoarder-app/hoarder) project. We're grateful for their work in creating such a powerful and flexible bookmarking solution.
 
+Special thanks to [@kdurek](https://github.com/kdurek) for creating the original Raycast Hoarder extension, which laid the foundation for this enhanced version.
+
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

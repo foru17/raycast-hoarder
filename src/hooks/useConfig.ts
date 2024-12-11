@@ -6,7 +6,7 @@ const getConfig = (): Config => {
   try {
     const preferences = getPreferenceValues<Preferences>();
     return {
-      host: preferences.host,
+      apiUrl: preferences.apiUrl,
       apiKey: preferences.apiKey,
       language: preferences.language || "en",
       showWebsitePreview: preferences.showWebsitePreview,
@@ -23,7 +23,7 @@ const getConfig = (): Config => {
   } catch (error) {
     console.error("Config load failed:", error);
     return {
-      host: "",
+      apiUrl: "",
       apiKey: "",
       language: "en",
       showWebsitePreview: true,

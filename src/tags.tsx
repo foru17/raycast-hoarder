@@ -10,11 +10,11 @@ export default function Tags() {
   const { push } = useNavigation();
   const { isLoading, tags, revalidate } = useGetAllTags();
   const { config } = useConfig();
-  const { host } = config;
+  const { apiUrl } = config;
   const { t } = useTranslation();
 
   const dashboardTagsPage = (tagId: string) => {
-    return `${host}/dashboard/tags/${tagId}`;
+    return `${apiUrl}/dashboard/tags/${tagId}`;
   };
 
   const handleShowTagBookmarks = (tagId: string, tagName: string) => {

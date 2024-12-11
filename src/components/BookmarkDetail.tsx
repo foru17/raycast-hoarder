@@ -87,8 +87,8 @@ export function BookmarkDetail({ bookmark: initialBookmark, onRefresh }: Bookmar
   const images = useBookmarkImages(bookmark);
 
   const dashboardPreviewPage = useMemo(
-    () => `${config.host}/dashboard/preview/${bookmark.id}`,
-    [config.host, bookmark.id],
+    () => `${config.apiUrl}/dashboard/preview/${bookmark.id}`,
+    [config.apiUrl, bookmark.id],
   );
 
   const fetchLatestBookmark = useCallback(async () => {

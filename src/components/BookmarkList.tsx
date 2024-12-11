@@ -1,12 +1,11 @@
 import { Action, ActionPanel, Icon, List, useNavigation } from "@raycast/api";
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useBookmarkFilter } from "../hooks/useBookmarkFilter";
 import { useConfig } from "../hooks/useConfig";
 import { useSearchBookmarks } from "../hooks/useSearchBookmarks";
 import { useTranslation } from "../hooks/useTranslation";
 import { Bookmark } from "../types";
 import { BookmarkItem } from "./BookmarkItem";
-
 interface BookmarkListProps {
   bookmarks: Bookmark[] | undefined;
   hasMore?: boolean;
@@ -20,10 +19,10 @@ interface BookmarkListProps {
   onSearch?: (text: string) => void;
   loadMore?: () => void;
 }
-
 function SearchBookmarkList({ searchText }: { searchText: string }) {
   const { t } = useTranslation();
   const { bookmarks, isLoading: isLoadingBookmarks, revalidate: revalidateBookmarks } = useSearchBookmarks(searchText);
+
   return (
     <BookmarkList
       bookmarks={bookmarks}
@@ -53,58 +52,73 @@ export function BookmarkList({
   const { config } = useConfig();
   const [searchText, setSearchText] = useState("");
 
-  const defaultSearchBarPlaceholder = t("bookmarkList.searchPlaceholder");
-  const defaultEmptyViewTitle = t("bookmarkList.loading.title");
-  const defaultEmptyViewDescription = t("bookmarkList.loading.description");
+  const defaultValues = useMemo(
+    () => ({
+      searchBarPlaceholder: t("bookmarkList.searchPlaceholder"),
+      emptyViewTitle: t("bookmarkList.loading.title"),
+      emptyViewDescription: t("bookmarkList.loading.description"),
+    }),
+    [t],
+  );
 
-  const handleSearchBookmarkList = () => {
+  const handleSearchBookmarkList = useCallback(() => {
     push(<SearchBookmarkList searchText={searchText} />);
-  };
+  }, [searchText, push]);
 
-  const searchFilteredBookmarks = useBookmarkFilter(bookmarks, searchText);
+  const handleSearchTextChange = useCallback(
+    (text: string) => {
+      setSearchText(text);
+      onSearch?.(text);
+    },
+    [onSearch],
+  );
 
-  const handleCleanCache = () => {};
-
-  const handleSearchTextChange = (text: string) => {
-    setSearchText(text);
-    onSearch?.(text);
-  };
-
-  const onLoadMore = () => {
+  const onLoadMore = useCallback(() => {
     loadMore?.();
-  };
+  }, [loadMore]);
+
+  const handleCleanCache = useCallback(() => {}, []);
+
+  const searchFilteredBookmarks = useBookmarkFilter(bookmarks || [], searchText);
+
+  const displayInfo = useMemo(() => {
+    const displayBookmarks = searchFilteredBookmarks || [];
+    const listTitle = searchText
+      ? t("bookmarkList.filterResults", { searchText, count: displayBookmarks.length })
+      : t("bookmarkList.title", { count: displayBookmarks.length });
+    const hasMoreNotice = hasMore ? "..." : "";
+
+    return {
+      displayBookmarks,
+      listTitle,
+      hasMoreNotice,
+    };
+  }, [searchFilteredBookmarks, searchText, hasMore, t]);
 
   if (!bookmarks) {
     return (
       <List>
         <List.EmptyView
-          title={emptyViewTitle || defaultEmptyViewTitle}
+          title={emptyViewTitle || defaultValues.emptyViewTitle}
           icon={Icon.Link}
-          description={emptyViewDescription || defaultEmptyViewDescription}
+          description={emptyViewDescription || defaultValues.emptyViewDescription}
         />
       </List>
     );
   }
 
-  const displayBookmarks = searchFilteredBookmarks || [];
-  const listTitle = searchText
-    ? t("bookmarkList.filterResults", { searchText, count: displayBookmarks.length })
-    : t("bookmarkList.title", { count: displayBookmarks.length });
-
-  const hasMoreNotice = hasMore ? "..." : "";
-
   return (
     <List
       isLoading={isLoading}
-      isShowingDetail={displayBookmarks.length > 0}
-      searchBarPlaceholder={searchBarPlaceholder || defaultSearchBarPlaceholder}
+      isShowingDetail={displayInfo.displayBookmarks.length > 0}
+      searchBarPlaceholder={searchBarPlaceholder || defaultValues.searchBarPlaceholder}
       onSearchTextChange={handleSearchTextChange}
       pagination={{
         onLoadMore,
         hasMore: hasMore || false,
         pageSize: 20,
       }}
-      navigationTitle={t("bookmarkList.title", { count: displayBookmarks.length })}
+      navigationTitle={t("bookmarkList.title", { count: displayInfo.displayBookmarks.length })}
     >
       {searchText && (
         <List.Item
@@ -122,8 +136,8 @@ export function BookmarkList({
           }
         />
       )}
-      <List.Section title={`${listTitle}${hasMoreNotice}`}>
-        {displayBookmarks.map((bookmark: Bookmark) => (
+      <List.Section title={`${displayInfo.listTitle}${displayInfo.hasMoreNotice}`}>
+        {displayInfo.displayBookmarks.map((bookmark: Bookmark) => (
           <BookmarkItem
             key={`${bookmark.id}-list-item`}
             bookmark={bookmark}

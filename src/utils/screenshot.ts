@@ -2,9 +2,9 @@ import { fetchWithAuth } from "../apis";
 import { getApiConfig } from "./config";
 
 export async function getScreenshot(id: string) {
-  const { host, apiKey } = await getApiConfig();
+  const { apiUrl, apiKey } = await getApiConfig();
   const encodedUrl = encodeURIComponent(`/api/assets/${id}`);
-  const imageUrl = `${host}/_next/image?url=${encodedUrl}&w=1200&q=75`;
+  const imageUrl = `${apiUrl}/_next/image?url=${encodedUrl}&w=1200&q=75`;
 
   // hack: Make an authenticated image URL request in the background to display the image in Raycast.
   await fetchWithAuth(imageUrl, {

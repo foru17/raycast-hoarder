@@ -1,4 +1,5 @@
 import { Icon, List, showToast, Toast } from "@raycast/api";
+import { useCallback } from "react";
 import { BookmarkList } from "./components/BookmarkList";
 import { useGetAllBookmarks } from "./hooks/useGetAllBookmarks";
 import { useTranslation } from "./hooks/useTranslation";
@@ -7,7 +8,7 @@ export default function BookmarksList() {
   const { t } = useTranslation();
   const { isLoading, bookmarks, hasMore, revalidate, loadNextPage } = useGetAllBookmarks();
 
-  const handleRefresh = async () => {
+  const handleRefresh = useCallback(async () => {
     const toast = await showToast({
       title: t("refreshingBookmarks"),
       message: t("pleaseWait"),
@@ -20,7 +21,7 @@ export default function BookmarksList() {
       toast.style = Toast.Style.Failure;
       toast.title = t("refreshError");
     }
-  };
+  }, [t, revalidate]);
 
   if (isLoading && bookmarks.length === 0) {
     return (

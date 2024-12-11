@@ -15,7 +15,7 @@ interface DisplayOptions {
 
 // Base configuration options for internal use
 interface BaseConfig {
-  host: string;
+  apiUrl: string;
   apiKey: string;
   language: string;
   showWebsitePreview: boolean;
@@ -24,7 +24,7 @@ interface BaseConfig {
 }
 
 export interface Preferences extends Partial<DisplayOptions> {
-  host: string;
+  apiUrl: string;
   apiKey: string;
   language?: string;
   showWebsitePreview: boolean;

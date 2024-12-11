@@ -10,8 +10,8 @@ interface FetchOptions {
 }
 
 export async function fetchWithAuth(path: string, options: FetchOptions = {}): Promise<unknown> {
-  const { host, apiKey } = await getApiConfig();
-  const url = new URL(path, host);
+  const { apiUrl, apiKey } = await getApiConfig();
+  const url = new URL(path, apiUrl);
   const response = await fetch(url.toString(), {
     method: options.method || "GET",
     headers: {
