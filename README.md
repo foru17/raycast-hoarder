@@ -3,9 +3,8 @@
 ![Raycast](https://shields.io/badge/Raycast-black?logo=raycast&style=style=fla)
 ![React](https://shields.io/badge/react-black?logo=react&style=style=fla)
 ![TypeScript](https://shields.io/badge/typescript-black?logo=typescript&style=style=fla)
-![Raycast Extension](https://img.shields.io/raycast/dt/luolei/hoarder?color=f67976&label=Installs&style=style=fla)
 
-A user-friendly Raycast extension that seamlessly integrates with [Hoarder](https://github.com/hoarder-app/hoarder), bringing powerful bookmark management to your fingertips. Quickly save, search, and organize your bookmarks, texts, images and pdf — all through Raycast's intuitive interface.
+A user-friendly Raycast extension that seamlessly integrates with [Hoarder](https://github.com/hoarder-app/hoarder), bringing powerful bookmark management to your fingertips. Quickly save, search, and organize your bookmarks, texts, and images—all through Raycast's intuitive interface.
 
 This extension leverages Hoarder's API to provide a streamlined experience for managing your digital collection, complete with AI-powered tagging and search capabilities.
 
@@ -13,9 +12,9 @@ This extension leverages Hoarder's API to provide a streamlined experience for m
 
 ## 📥 Installation
 
-### Option 1: Raycast Store (Recommended)
+### Option 1: Raycast Store (Coming Soon)
 
-- [ ] Install directly from [Raycast Store: Hoarder](https://www.raycast.com/luolei/hoarder)
+- [ ] Install directly from [Raycast Store: Hoarder Bookmark Manager](https://zuoluo.tv/raycast-hoarder)
 
 ### Option 2: Manual Installation
 
