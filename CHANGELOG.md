@@ -1,13 +1,5 @@
 # Hoarder Changelog
 
-## [2.0.1] - 2025-01-05
-
-### Minor Changes
-
-- Added note, archive and favourited fields to create bookmark view
-- Fixed type compatibility issue with createdAt field when creating bookmarks
--
-
 ## [2.0.0] - 2024-12-11
 
 ### Major Changes
@@ -21,7 +13,7 @@
 
 ## [Pre-release Development]
 
-### [Hoarder API Integration] - 2024-11-24
+### [Sink API Integration] - 2024-11-24
 
 - Implemented core functionality for communicating with Hoarder API
 - Added search, list, and detail view functionality
