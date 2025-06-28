@@ -4,6 +4,7 @@ import { fetchAddBookmarkToList, fetchCreateBookmark } from "./apis";
 import { BookmarkDetail } from "./components/BookmarkDetail";
 import { useGetAllLists } from "./hooks/useGetAllLists";
 import { useTranslation } from "./hooks/useTranslation";
+import { useConfig } from "./hooks/useConfig";
 import { Bookmark } from "./types";
 import { validUrl } from "./utils/url";
 
@@ -18,8 +19,12 @@ export default function CreateBookmarkView() {
   const { push, pop } = useNavigation();
   const { t } = useTranslation();
   const { lists } = useGetAllLists();
+  const { config } = useConfig();
 
   const { handleSubmit, itemProps, values } = useForm<FormValues>({
+    initialValues: {
+      type: config.createBookmarkType,
+    },
     validation: {
       type: FormValidation.Required,
       content: (value: string | undefined) => {

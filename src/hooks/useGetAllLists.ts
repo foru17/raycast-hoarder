@@ -1,6 +1,6 @@
 import { useCachedPromise } from "@raycast/utils";
-import { fetchGetAllLists, fetchGetSingleList } from "../apis";
-import { List, ListDetails, ApiResponse } from "../types";
+import { fetchGetAllLists, fetchGetSingleListBookmarks } from "../apis";
+import { ApiResponse, List, ListDetails } from "../types";
 
 interface ListWithCount extends List {
   count: number;
@@ -14,7 +14,7 @@ export function useGetAllLists() {
     const listsWithCount = await Promise.all(
       lists.map(async (list: List) => {
         try {
-          const details = (await fetchGetSingleList(list.id)) as ListDetails;
+          const details = (await fetchGetSingleListBookmarks(list.id)) as ListDetails;
           return {
             ...list,
             count: details.bookmarks?.length || 0,

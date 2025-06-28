@@ -1,4 +1,11 @@
-# Hoarder Changelog
+# Karakeep Changelog
+
+## [2.0.1] - 2025-06-28
+
+### Major Changes
+
+- Renamed to Karakeep
+- Add create bookmark default type setting
 
 ## [2.0.0] - 2024-12-11
 
@@ -13,10 +20,11 @@
 
 ## [Pre-release Development]
 
-### [Sink API Integration] - 2024-11-24
+### [Karakeep API Integration] - 2024-11-24
 
-- Implemented core functionality for communicating with Hoarder API
+- Implemented core functionality for communicating with Karakeep API
 - Added search, list, and detail view functionality
+- Fix lists count display bug
 
 ### [UI Development] - 2024-11-24
 
@@ -25,7 +33,7 @@
 
 ### [Settings and Preferences] - 2024-11-24
 
-- Implemented configuration for Hoarder API host and apikey
+- Implemented configuration for Karakeep API host and apikey
 - Added language preference setting (English and Chinese)
 
 ### [Enhanced Project Initialization] - 2024-11-24
